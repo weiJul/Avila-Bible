@@ -6,6 +6,7 @@ import torch.nn as nn
 import numpy as np
 import copy
 from net_bn import BnNN
+from net_deep import DeepNN
 from preproData import get_data
 import matplotlib.pyplot as plt
 import torch.optim as optim
@@ -21,8 +22,8 @@ random.seed(0)
 
 lrDrop = 1
 recStep = 50
-iterations = 2000
-learn = 0.1
+iterations = 8000
+learn = 0.01
 # model parameters
 inputLayer = 10
 outputLayer = 12
@@ -44,7 +45,9 @@ testDataNP = np.asarray(testData,  dtype=np.float32)
 testLabelsNP = np.asarray(testLabels,  dtype=np.int)
 testDataTorch = torch.from_numpy(testDataNP).float()
 
-model = BnNN(inputLayer, outputLayer)
+# select model
+# model = BnNN(inputLayer, outputLayer)
+model = DeepNN(inputLayer, outputLayer)
 
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.RMSprop(model.parameters(), lr=learn, momentum=0.3) # step_size=200 , learn = 0.1
@@ -54,7 +57,7 @@ optimizer = torch.optim.RMSprop(model.parameters(), lr=learn, momentum=0.3) # st
 # lr_scheduler = reducing lr by plateau
 # lr_scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer,patience=100, verbose=True)
 # scheduler = reducing lr by epoch
-scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=1000, gamma=0.95)
+scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=700, gamma=0.95) # without Dropout step_size should be between 200 - 400
 
 succ = 0
 stat = []
