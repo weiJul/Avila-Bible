@@ -1,3 +1,6 @@
+# Author: Julius Weißmann
+# Github: weiJul
+
 import torch.nn as nn
 import torch.nn.functional as F
 
